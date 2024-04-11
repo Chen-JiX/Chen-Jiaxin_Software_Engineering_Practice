@@ -1,0 +1,17 @@
+@startuml
+skinparam sequenceMessageAlign right
+Student -> System:PressBtnMakePhoto
+activate System
+System -> Recognizer:frame = MakePhoto()
+System -> Recognizer:table = Recognize(frame)
+activate Recognizer
+Recognizer -> Tabler: "create"
+activate Tabler
+Tabler -> Processor:"transfer"
+deactivate Tabler
+deactivate Recognizer
+activate Processor
+System -> Processor:result = Compare(table)
+deactivate Processor
+deactivate System
+@enduml

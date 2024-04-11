@@ -1,0 +1,16 @@
+@startuml
+Class System{
+PressBtnMakePhoto()
+MakeCompare()
+}
+Class Recognizer{
+MakePhoto()
+Recognize(frame)
+}
+Class Processor{
+Compare(test)
+}
+System *-- Recognizer:has
+System *-- Processor:has
+Recognizer --> Table:depend
+@enduml

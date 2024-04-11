@@ -1,0 +1,12 @@
+@startuml
+skinparam sequenceMessageAlign right
+Teacher -> System:PressBtnMakePhoto
+activate System
+System -> Recognizer:frame = MakePhoto()
+System -> Recognizer:table = Recognize(frame)
+activate Recognizer
+Recognizer -> Tabler: "create"
+Tabler -> System: "store"
+deactivate Recognizer
+deactivate System
+@enduml

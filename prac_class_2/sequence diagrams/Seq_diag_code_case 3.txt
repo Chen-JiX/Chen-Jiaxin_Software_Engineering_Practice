@@ -1,0 +1,11 @@
+@startuml
+skinparam sequenceMessageAlign right
+Teacher -> System:PressBtnPublishTest
+activate System
+System -> Camera:frame = Makephoto()
+activate Student
+Student -> System:PressBtnGetTest
+System -> Student:Test = Transfer(frame)
+deactivate System
+deactivate Student
+@enduml
