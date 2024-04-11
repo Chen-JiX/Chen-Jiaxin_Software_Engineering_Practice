@@ -1,0 +1,9 @@
+@startuml
+student -->(get results)
+student ->(upload the picture of the answer table)
+teacher -->(store the right answer)
+teacher -->(recognize the answer table)
+teacher ->(get results)
+teacher ->(publish the test)
+(publish the test)->student
+@enduml
