@@ -3,6 +3,35 @@ import cv2
 import numpy as np
 
 
+# get the position of cross points of the table
+def get_cross_point(x, y):
+    x_point_arr = []
+    y_point_arr = []
+    i = 0
+    sort_x_point = np.sort(x)
+    for i in range(len(sort_x_point) - 1):
+        if sort_x_point[i + 1] - sort_x_point[i] > 10:
+            x_point_arr.append(sort_x_point[i])
+            i = i + 1
+    x_point_arr.append(sort_x_point[i])
+
+    i = 0
+    sort_y_point = np.sort(y)
+    for i in range(len(sort_y_point) - 1):
+        if sort_y_point[i + 1] - sort_y_point[i] > 10:
+            y_point_arr.append(sort_y_point[i])
+            i = i + 1
+    y_point_arr.append(sort_y_point[i])
+    return x_point_arr, y_point_arr
+
+
+def isEmpty(image):
+    if np.max(image) > 0:
+        return 1
+    else:
+        return 0
+
+
 def read_frame(image):
     f = cv2.imread(image)
     # gray processing
@@ -43,35 +72,18 @@ def read_frame(image):
 
     # determine position of cross points
     ys, xs = np.where(cross_point > 0)
-    y_point_arr = []
-    x_point_arr = []
-
-    i = 0
-    sort_x_point = np.sort(xs)
-    for i in range(len(sort_x_point) - 1):
-        if sort_x_point[i + 1] - sort_x_point[i] > 10:
-            x_point_arr.append(sort_x_point[i])
-            i = i + 1
-    x_point_arr.append(sort_x_point[i])
-
-    i = 0
-    sort_y_point = np.sort(ys)
-    for i in range(len(sort_y_point) - 1):
-        if sort_y_point[i + 1] - sort_y_point[i] > 10:
-            y_point_arr.append(sort_y_point[i])
-            i = i + 1
-    y_point_arr.append(sort_y_point[i])
+    x_point, y_point = get_cross_point(xs, ys)
 
     # Create answer matrix
-    ans = np.zeros((len(y_point_arr)-2, len(x_point_arr)-2))
-    for i in range(1, len(x_point_arr)-1):
-        for j in range(1, len(y_point_arr)-1):
-            x1 = x_point_arr[i]
-            x2 = x_point_arr[i+1]
-            y1 = y_point_arr[j]
-            y2 = y_point_arr[j+1]
+    ans = np.zeros((len(y_point)-2, len(x_point)-2))
+    for i in range(1, len(x_point)-1):
+        for j in range(1, len(y_point)-1):
+            x1 = x_point[i]
+            x2 = x_point[i+1]
+            y1 = y_point[j]
+            y2 = y_point[j+1]
             box = content[y1:y2, x1:x2]
-            if np.max(box) > 0:
+            if isEmpty(box) == 1:
                 ans[j-1][i-1] = 1
     return ans
 
