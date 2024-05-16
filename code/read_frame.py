@@ -88,11 +88,6 @@ def read_frame(image):
     return ans
 
 
-if __name__ == "__main__":
-    filename = 'test.png'
-    ans_matrix = read_frame(filename)
-    print(ans_matrix)
-
 
 
 
